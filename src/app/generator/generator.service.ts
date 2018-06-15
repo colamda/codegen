@@ -7,8 +7,11 @@ import * as rimraf from 'rimraf';
 import { Observable } from 'rxjs/Observable';
 import { Artifact } from './artifact';
 import { LangUtils, StringUtils } from '@codebalancers/commons';
+import { Logger } from '@codebalancers/logging';
 
 export class GeneratorService {
+  private logger = new Logger('GeneratorService');
+
   /**
    *
    * @param {ModelProcessor[]} modelProcessors all model processors that are considered (but not necessarily used) for generation
@@ -21,7 +24,7 @@ export class GeneratorService {
    * @param {string} configFilePath absolute path to codegen config file
    */
   public generate(modelDirPath: string, configFilePath: string): Observable<Artifact>[] {
-    console.log('generate', modelDirPath, configFilePath);
+    this.logger.info('generate', modelDirPath, configFilePath);
 
     const artifacts: Observable<Artifact>[] = [];
 
@@ -31,6 +34,8 @@ export class GeneratorService {
     codegenConfig
       .modelConfigs
       .forEach(config => {
+        this.logger.debug('process modelConfig');
+
         const model: {} = this.readModelFromModelDir(modelDirPath, config.model);
         this.modelProcessors
           .filter(mp => this.testProcessorMatches(mp, config.targets))
@@ -51,10 +56,10 @@ export class GeneratorService {
    * @returns {CodegenConfig} read
    */
   private readConfigFile(configFilePath: string): CodegenConfig {
-    console.log('read config file', configFilePath);
+    this.logger.info('read config file', configFilePath);
 
     if (!lstatSync(configFilePath).isFile()) {
-      console.error('could not find config file', configFilePath);
+      this.logger.error('could not find config file', configFilePath);
       return { wipeDirectories: [], modelConfigs: [] };
     }
 
@@ -78,14 +83,14 @@ export class GeneratorService {
       .filter(config => {
         const ret = config.enabled === true;
         if (ret === false) {
-          console.log('remove config that is not enabled', config);
+          this.logger.warn('remove config that is not enabled', config);
         }
         return ret;
       })
       .filter(config => {
         const ret = StringUtils.isNotBlank(config.model) && StringUtils.isNotBlank(config.destination);
         if (ret === false) {
-          console.log('remove config that misses "model" or "path" field', config);
+          this.logger.warn('remove config that misses "model" or "path" field', config);
         }
         return ret;
       })
@@ -108,7 +113,7 @@ export class GeneratorService {
    */
   private readModelFromModelDir(modelDirPath: string, requestedModel: string): {} {
     const path = _path.join(modelDirPath, requestedModel);
-    console.log('read model', path);
+    this.logger.info('read model', path);
     const model1String = readFileSync(path, 'utf-8');
     return JSON.parse(model1String);
   }
@@ -160,7 +165,7 @@ export class GeneratorService {
    */
   private wipeDirectories(wipeDirectories: string[]): void {
     wipeDirectories.forEach(dir => {
-      console.log('wipe directory', dir);
+      this.logger.info('wipe directory', dir);
       rimraf.sync(dir);
     });
   }
