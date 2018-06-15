@@ -28,7 +28,7 @@ export function startGeneration(filePath: string,
   // register configured filters
   if (LangUtils.isDefined(filterIndexPath)
     && existsSync(filterIndexPath)
-    && lstatSync(filePath).isFile()) {
+    && lstatSync(filterIndexPath).isFile()) {
     logger.info('add configured filters');
     (require(filterIndexPath).filterIndex as TemplateFilter[]).forEach(filter => filter.registerFilter(env));
   }
