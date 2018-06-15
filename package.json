@@ -9,7 +9,6 @@
     "prep-dir": "mkdir -p cb-codegen/ng/",
     "compile": "tsc",
     "compile.w": "tsc -w",
-    "schema:generate": "ts-node src/schema/v1/schema-generator.ts",
     "lint": "tslint --project tslint.json src/**/*.ts",
     "test": "jest",
     "copy-ng": "cp ./node_modules/@codebalancers/model-editor/dist/* cb-codegen/ng/",

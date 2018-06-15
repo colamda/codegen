@@ -6,6 +6,7 @@ import { startGeneration } from './generator/generator';
 import { FileUtils } from './utils/file.utils';
 import { Logger, LoggingBackend } from '@codebalancers/logging';
 import { TerminalAppender } from '@codebalancers/logging/cb-logging/terminal.appender';
+import { startSchemaGeneration } from './schema/schema-generator';
 
 LoggingBackend.appenders.push(new TerminalAppender());
 const logger = new Logger('main');
@@ -82,6 +83,20 @@ const argv = yargs
       if (checkModelDir(directoryPath)) {
         startGeneration(directoryPath, configs(y.config));
       }
+    })
+  .command('schema:generate', 'Generate json schema from TS interfaces',
+    y => {
+      return y
+        .alias('s', 'schema')
+        .describe('s', 'file with schema description')
+        .nargs('s', 1)
+
+        .demandOption([ 's' ]);
+    },
+    y => {
+      logger.info('generate schema');
+      const schemaPath = FileUtils.getAbsolutePath(process.cwd(), y.schema);
+      startSchemaGeneration(schemaPath);
     })
 
   .demandCommand(1)
