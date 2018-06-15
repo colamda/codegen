@@ -31,6 +31,8 @@ export function startGeneration(filePath: string,
     && lstatSync(filterIndexPath).isFile()) {
     logger.info('add configured filters');
     (require(filterIndexPath).filterIndex as TemplateFilter[]).forEach(filter => filter.registerFilter(env));
+  } else {
+    logger.info('filterIndexPath was not configured to an existing path', filterIndexPath);
   }
 
   // register build in filters
@@ -65,6 +67,8 @@ export function startGeneration(filePath: string,
         logger.info('run code formatters');
         (require(formatterIndexPath).formatterIndex as CodeFormatter[])
           .forEach(f => f.formatCode(artifacts.filter(artifact => artifact.formatted === false)));
+      } else {
+        logger.info('formatterIndexPath was not configured to an existing path', formatterIndexPath);
       }
     });
 }
