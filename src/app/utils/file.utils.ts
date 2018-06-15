@@ -1,8 +1,13 @@
 import * as _path from 'path';
 import { mkdirSync } from 'fs';
+import { StringUtils } from '@codebalancers/commons';
 
 export class FileUtils {
   public static getAbsolutePath(currentPath: string, path: string): string {
+    if (StringUtils.isBlank(path)) {
+      return null;
+    }
+
     if (path.startsWith('/')) {
       return path;
     } else {

@@ -72,16 +72,31 @@ const argv = yargs
         .describe('m', 'directory with models')
         .nargs('m', 1)
 
+        .alias('f', 'filters')
+        .describe('f', 'file with filter index')
+        .nargs('f', 1)
+
+        .alias('mp', 'modelProcessors')
+        .describe('mp', 'file with processor index')
+        .nargs('mp', 1)
+
+        .alias('cf', 'codeFormatters')
+        .describe('cf', 'file with formatters index')
+        .nargs('cf', 1)
+
         .alias('c', 'config')
         .describe('c', 'generation config file')
 
-        .demandOption([ 'm', 'c' ]);
+        .demandOption([ 'm', 'c', 'mp' ]);
     },
     y => {
       logger.info('generate');
       const directoryPath = FileUtils.getAbsolutePath(process.cwd(), y.modelDir);
+      const filterPath = FileUtils.getAbsolutePath(process.cwd(), y.filters);
+      const processorIndexPath = FileUtils.getAbsolutePath(process.cwd(), y.modelProcessors);
+
       if (checkModelDir(directoryPath)) {
-        startGeneration(directoryPath, configs(y.config));
+        startGeneration(directoryPath, configs(y.config), filterPath, processorIndexPath);
       }
     })
   .command('schema:generate', 'Generate json schema from TS interfaces',
@@ -101,7 +116,7 @@ const argv = yargs
 
   .demandCommand(1)
 
-  .example('$0 generate -m path/to/models/ -c config-1.json -c config-2.json', 'generatation based on two models')
+  .example('$0 generate -m path/to/models/ -c config-1.json -c config-2.json', 'generation based on two models')
   .example('$0 serve -m path/to/models/', 'start model editor')
 
   .help('h')
