@@ -13,11 +13,8 @@
     "lint": "tslint --project tslint.json src/**/*.ts",
     "test": "jest",
     "copy-ng": "cp ./node_modules/@codebalancers/model-editor/dist/* cb-codegen/ng/",
-    "copy-google-formatter": "copyfiles -u 1 src/**/*.jar cb-codegen/",
-    "copy-resources": "copyfiles -u 1 src/**/*.tpl cb-codegen/",
-    "copy-resources.w": "watch 'yarn run copy-resources' src/templates/ --interval=1",
-    "build": "yarn run clean && yarn run prep-dir && yarn run copy-ng && yarn run copy-resources && yarn run copy-google-formatter && yarn run lint && yarn run compile",
-    "build.w": "yarn run clean && yarn run prep-dir && yarn run copy-ng && yarn run lint && yarn run copy-google-formatter && concurrently --kill-others \"yarn run compile.w\" \"yarn run copy-resources.w\""
+    "build": "yarn run clean && yarn run prep-dir && yarn run copy-ng && yarn run lint && yarn run compile",
+    "build.w": "yarn run clean && yarn run prep-dir && yarn run copy-ng && yarn run lint && yarn run compile.w"
   },
   "jest": {
     "transform": {
@@ -69,14 +66,12 @@
     "@types/prettier": "^1.12.2",
     "@types/rimraf": "^2.0.2",
     "@types/yargs": "^11.0.0",
-    "concurrently": "^3.5.1",
     "copyfiles": "^2.0.0",
     "jest": "^22.4.3",
     "ts-jest": "^22.4.6",
     "ts-node": "^6.0.3",
     "tslint": "^5.9.1",
     "tslint-eslint-rules": "^5.1.0",
-    "typescript": "2.6.2",
-    "watch": "^1.0.2"
+    "typescript": "2.6.2"
   }
 }
