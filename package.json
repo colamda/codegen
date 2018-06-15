@@ -1,7 +1,8 @@
 {
   "name": "@codebalancers/codegen",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Codegen library",
+  "license": "MIT",
   "author": "codebalancers",
   "scripts": {
     "app": "node bin/index.js",
@@ -33,6 +34,7 @@
     ]
   },
   "files": [
+    "bin",
     "cb-codegen"
   ],
   "repository": {
@@ -43,9 +45,7 @@
     "access": "public"
   },
   "main": "cb-codegen/app/main.js",
-  "bin": {
-    "codegen": "./bin/index.js"
-  },
+  "bin": "./bin/index.js",
   "dependencies": {
     "@codebalancers/commons": "^1.0.4",
     "@codebalancers/logging": "^1.0.10",
