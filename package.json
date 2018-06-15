@@ -35,6 +35,10 @@
   "files": [
     "cb-codegen"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codebalancers/codegen.git"
+  },
   "publishConfig": {
     "access": "public"
   },
