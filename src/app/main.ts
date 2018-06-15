@@ -94,9 +94,10 @@ const argv = yargs
       const directoryPath = FileUtils.getAbsolutePath(process.cwd(), y.modelDir);
       const filterPath = FileUtils.getAbsolutePath(process.cwd(), y.filters);
       const processorIndexPath = FileUtils.getAbsolutePath(process.cwd(), y.modelProcessors);
+      const formatterIndexPath = FileUtils.getAbsolutePath(process.cwd(), y.codeFormatters);
 
       if (checkModelDir(directoryPath)) {
-        startGeneration(directoryPath, configs(y.config), filterPath, processorIndexPath);
+        startGeneration(directoryPath, configs(y.config), filterPath, processorIndexPath, formatterIndexPath);
       }
     })
   .command('schema:generate', 'Generate json schema from TS interfaces',

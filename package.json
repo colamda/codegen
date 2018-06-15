@@ -45,18 +45,17 @@
   "dependencies": {
     "@codebalancers/commons": "^1.0.4",
     "@codebalancers/logging": "^1.0.10",
-    "@codebalancers/model-editor": "^1.0.7",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "lodash": "^4.17.10",
     "nunjucks": "^3.1.2",
-    "prettier": "^1.12.1",
     "rimraf": "^2.6.2",
     "rxjs": "^5.5.2",
     "typescript-json-schema": "^0.24.1",
     "yargs": "^11.0.0"
   },
   "devDependencies": {
+    "@codebalancers/model-editor": "^1.0.7",
     "@types/body-parser": "^1.17.0",
     "@types/express": "^4.11.1",
     "@types/jest": "^22.2.3",

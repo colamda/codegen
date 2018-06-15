@@ -1,4 +1,4 @@
 // -- all filters that shall be available must be registered here
-import { CodeFormatter } from '../app/code-formatter/code-formatter';
+import { CodeFormatter } from './code-formatter';
 
 export const formatterIndex: CodeFormatter[] = [];

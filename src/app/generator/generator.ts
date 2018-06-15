@@ -3,17 +3,19 @@ import { GeneratorService } from './generator.service';
 import { filterIndex } from '../../filters';
 import { Artifact } from './artifact';
 import { Observable } from 'rxjs/Observable';
-import { CodeFormatter } from '../code-formatter/code-formatter';
+import { CodeFormatter } from '../../code-formatter/code-formatter';
 import { TemplateFilter } from '../template-filter';
 import { LangUtils } from '@codebalancers/commons';
 import { existsSync, lstatSync } from 'fs';
 import { ModelProcessor } from '../../model-processor/model-processor';
 import { Logger } from '@codebalancers/logging';
 
-export function startGeneration(filePath: string, configFiles: string[], filterIndexPath: string, processorIndexPath: string): void {
+export function startGeneration(filePath: string,
+                                configFiles: string[],
+                                filterIndexPath: string,
+                                processorIndexPath: string,
+                                formatterIndexPath: string): void {
   const logger = new Logger('startGeneration');
-
-  const codeFormatter = new CodeFormatter();
 
   logger.info('startGeneration for', filePath, configFiles);
 
@@ -27,10 +29,12 @@ export function startGeneration(filePath: string, configFiles: string[], filterI
   if (LangUtils.isDefined(filterIndexPath)
     && existsSync(filterIndexPath)
     && lstatSync(filePath).isFile()) {
+    logger.info('add configured filters');
     (require(filterIndexPath).filterIndex as TemplateFilter[]).forEach(filter => filter.registerFilter(env));
   }
 
   // register build in filters
+  logger.info('add build-in filters');
   filterIndex.forEach(filter => filter.registerFilter(env));
 
   // register configured filters
@@ -54,10 +58,13 @@ export function startGeneration(filePath: string, configFiles: string[], filterI
   Observable
     .forkJoin(artifactsObservables)
     .subscribe((artifacts: Artifact[]) => {
-      // remove already formatted artifacts
-      const files = artifacts.filter(artifact => artifact.formatted === false);
-
       // call code formatter
-      codeFormatter.formatCode(files);
+      if (LangUtils.isDefined(formatterIndexPath)
+        && existsSync(formatterIndexPath)
+        && lstatSync(formatterIndexPath).isFile()) {
+        logger.info('run code formatters');
+        (require(formatterIndexPath).formatterIndex as CodeFormatter[])
+          .forEach(f => f.formatCode(artifacts.filter(artifact => artifact.formatted === false)));
+      }
     });
 }
