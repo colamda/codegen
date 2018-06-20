@@ -24,8 +24,9 @@ export class GeneratorService {
         // meta: true,
         // extendRefs: true,
         // allErrors: true,
-        unknownFormats: 'ignore'
-      }
+        unknownFormats: 'ignore',
+        logger: false
+      } as any
     );
 
     this.ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'));
