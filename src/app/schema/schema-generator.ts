@@ -6,7 +6,17 @@ import { FileUtils } from '../utils/file.utils';
 // optionally pass argument to schema generator
 const settings: TJS.PartialArgs = {
   required: true,
-  validationKeywords: [ 'title', 'headerTemplate', 'watch', 'enumSource' ]
+  validationKeywords: [
+    'title', 'headerTemplate', 'watch', 'enumSource',
+    'options', 'media',
+    'basicCategoryTitle', 'template',
+    'minLength', 'maxLength',
+    'pattern',
+    'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum',
+    'multipleOf',
+    'minProperties', 'maxProperties',
+    'minItems', 'maxItems', 'uniqueItems'
+  ]
 };
 
 // optionally pass ts compiler options
