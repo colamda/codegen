@@ -107,12 +107,17 @@ const argv = yargs
         .describe('s', 'file with schema description')
         .nargs('s', 1)
 
+        .alias('o', 'out')
+        .describe('o', 'path to file where schema is written')
+        .nargs('o', 1)
+
         .demandOption([ 's' ]);
     },
     y => {
       logger.info('generate schema');
       const schemaPath = FileUtils.getAbsolutePath(process.cwd(), y.schema);
-      startSchemaGeneration(schemaPath);
+      const outPath = FileUtils.getAbsolutePath(process.cwd(), y.out);
+      startSchemaGeneration(schemaPath, outPath);
     })
 
   .demandCommand(1)

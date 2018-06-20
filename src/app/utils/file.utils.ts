@@ -1,5 +1,5 @@
 import * as _path from 'path';
-import { mkdirSync } from 'fs';
+import { mkdirSync, writeFileSync } from 'fs';
 import { StringUtils } from '@codebalancers/commons';
 
 export class FileUtils {
@@ -26,5 +26,15 @@ export class FileUtils {
         FileUtils.mkdirParent(dir, mode);
       }
     }
+  }
+
+  public static writeFile(targetFilePath: string, contents: string, createDir = false): void {
+    if (createDir) {
+      const dir = _path.dirname(targetFilePath);
+      this.mkdirParent(dir);
+    }
+
+    console.log('write file', targetFilePath);
+    writeFileSync(targetFilePath, contents);
   }
 }
