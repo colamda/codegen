@@ -57,8 +57,10 @@ export function startGeneration(filePath: string,
     artifactsObservables.push(...a);
   });
 
+  // -- execute the collected observables; remove all resulting artifacts that are undefined
   Observable
     .forkJoin(artifactsObservables)
+    .map(artifacts => artifacts.filter(a => LangUtils.isDefined(a)))
     .subscribe((artifacts: Artifact[]) => {
       // call code formatter
       if (LangUtils.isDefined(formatterIndexPath)

@@ -40,12 +40,19 @@ export class GeneratorService {
         this.modelProcessors
           .filter(mp => this.testProcessorMatches(mp, config.targets))
           .forEach(mp => {
-            const res = mp.process(model, config.destination, config.config);
-            artifacts.push(...res);
+            try {
+              const res = mp.process(model, config.destination, config.config);
+              artifacts.push(...res);
+            } catch (e) {
+              this.logger.error('error when running model processor', mp.type, e);
+            }
           });
       });
 
-    return artifacts;
+    return artifacts.map(o => o.catch(err => {
+      this.logger.error('error when running model processor', err);
+      return Observable.of(null);
+    }));
   }
 
   /**
