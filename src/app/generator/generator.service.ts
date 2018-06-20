@@ -8,15 +8,27 @@ import { Observable } from 'rxjs/Observable';
 import { Artifact } from './artifact';
 import { LangUtils, StringUtils } from '@codebalancers/commons';
 import { Logger } from '@codebalancers/logging';
+import * as Ajv from 'ajv';
 
 export class GeneratorService {
   private logger = new Logger('GeneratorService');
+  private ajv: any;
 
   /**
    *
    * @param {ModelProcessor[]} modelProcessors all model processors that are considered (but not necessarily used) for generation
    */
   constructor(private modelProcessors: ModelProcessor[]) {
+    this.ajv = new Ajv(
+      {
+        // meta: true,
+        // extendRefs: true,
+        // allErrors: true,
+        unknownFormats: 'ignore'
+      }
+    );
+
+    this.ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'));
   }
 
   /**
@@ -31,12 +43,21 @@ export class GeneratorService {
     const codegenConfig: CodegenConfig = this.readConfigFile(configFilePath);
     this.wipeDirectories(codegenConfig.wipeDirectories);
 
+    const schema = this.readSchemaFromModelDir(modelDirPath);
+
     codegenConfig
       .modelConfigs
       .forEach(config => {
         this.logger.debug('process modelConfig');
 
         const model: {} = this.readModelFromModelDir(modelDirPath, config.model);
+
+        const valid = this.validateModel(model, schema);
+        if (!valid) {
+          this.logger.error('skip model', config.model);
+          return;
+        }
+
         this.modelProcessors
           .filter(mp => this.testProcessorMatches(mp, config.targets))
           .forEach(mp => {
@@ -125,6 +146,13 @@ export class GeneratorService {
     return JSON.parse(model1String);
   }
 
+  private readSchemaFromModelDir(modelDirPath: string): {} {
+    const path = _path.join(modelDirPath, 'schema.json');
+    this.logger.info('read schema', path);
+    const schema = readFileSync(path, 'utf-8') as string;
+    return JSON.parse(schema);
+  }
+
   /**
    * Translate the (potentially relative) target base path to an absolute path.
    *
@@ -175,5 +203,16 @@ export class GeneratorService {
       this.logger.info('wipe directory', dir);
       rimraf.sync(dir);
     });
+  }
+
+  private validateModel(model: {}, schema: {}): boolean {
+    const validate = this.ajv.compile(schema);
+    const valid = validate(model);
+
+    if (!valid) {
+      this.logger.error('model is not valid', validate.errors);
+    }
+
+    return valid;
   }
 }
