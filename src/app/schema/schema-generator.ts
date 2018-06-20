@@ -21,14 +21,12 @@ export function startSchemaGeneration(filePath: string, outPath: string): void {
   const program = TJS.getProgramFromFiles([ filePath ], compilerOptions);
   const schema = TJS.generateSchema(program, 'Model', settings);
 
-  const schemaString = JSON.stringify(schema);
-
   if (LangUtils.isUndefined(outPath)) {
     console.log('----------------------------------');
-    console.log(schemaString);
+    console.log(JSON.stringify(schema));
     console.log('----------------------------------');
   } else {
-    FileUtils.writeFile(outPath, schemaString);
+    FileUtils.writeFile(outPath, JSON.stringify(schema, null, 2));
   }
 
   logger.info('done generation');
