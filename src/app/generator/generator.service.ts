@@ -8,9 +8,8 @@ import { Artifact } from './artifact';
 import { LangUtils, StringUtils } from '@codebalancers/commons';
 import { Logger } from '@codebalancers/logging';
 import * as Ajv from 'ajv';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
 
 export class GeneratorService {
   private logger = new Logger('GeneratorService');

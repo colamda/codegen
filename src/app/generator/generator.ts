@@ -8,8 +8,7 @@ import { LangUtils } from '@codebalancers/commons';
 import { existsSync, lstatSync } from 'fs';
 import { ModelProcessor } from '../../model-processor/model-processor';
 import { Logger } from '@codebalancers/logging';
-import { Observable } from 'rxjs/internal/Observable';
-import { forkJoin } from 'rxjs/internal/observable/forkJoin';
+import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export function startGeneration(

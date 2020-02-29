@@ -1,5 +1,5 @@
 import { Artifact } from '../app/generator/artifact';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 
 /**
  * A ModelProcessor takes a model and translates the model to one ore more target models and calls one or more generators that do the
