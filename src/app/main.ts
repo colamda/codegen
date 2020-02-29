@@ -1,6 +1,5 @@
 import * as yargs from 'yargs';
 import { lstatSync } from 'fs';
-import './rxjs-operators';
 import { startServer } from './server/server';
 import { startGeneration } from './generator/generator';
 import { FileUtils } from './utils/file.utils';
