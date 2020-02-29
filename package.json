@@ -1,9 +1,9 @@
 {
-  "name": "@codebalancers/codegen",
+  "name": "@colamda/codegen",
   "version": "1.0.11",
   "description": "Codegen library",
   "license": "MIT",
-  "author": "codebalancers",
+  "author": "Colamda GmbH",
   "scripts": {
     "app": "node bin/index.js",
     "clean": "rm -rf cb-codegen/",
