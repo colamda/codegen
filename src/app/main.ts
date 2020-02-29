@@ -164,6 +164,6 @@ const argv = yargs
 
   .help('h')
   .alias('h', 'help')
-  .epilog('copyright 2018 codebalancers').argv;
+  .epilog('Copyright 2020 Colamda GmbH').argv;
 
 logger.info('done');
