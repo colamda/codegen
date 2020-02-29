@@ -28,7 +28,11 @@ export class FileUtils {
     }
   }
 
-  public static writeFile(targetFilePath: string, contents: string, createDir = false): void {
+  public static writeFile(
+    targetFilePath: string,
+    contents: string,
+    createDir = false
+  ): void {
     if (createDir) {
       const dir = _path.dirname(targetFilePath);
       this.mkdirParent(dir);

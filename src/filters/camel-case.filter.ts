@@ -8,6 +8,6 @@ import { TemplateFilter } from '../app/template-filter';
 export class CamelCaseFilter implements TemplateFilter {
   public registerFilter(env: Environment): void {
     console.log('addCamelCaseFilter');
-    env.addFilter('camelCase', (str) => _.camelCase(str));
+    env.addFilter('camelCase', str => _.camelCase(str));
   }
 }

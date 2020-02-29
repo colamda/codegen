@@ -10,7 +10,6 @@ export interface ModelEntry {
 }
 
 export class ServerService {
-
   public getModels(modelPath: string): ModelEntry[] {
     const ret: ModelEntry[] = [];
 

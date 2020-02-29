@@ -1,7 +1,7 @@
 # Filters
 
 This directory contains filters that are available in the templates. In order to create a new filter create
-a new class that implements the `TemplateFilter`: 
+a new class that implements the `TemplateFilter`:
 
 ```typescript
 import { Environment } from 'nunjucks';

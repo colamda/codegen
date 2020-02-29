@@ -8,6 +8,6 @@ import { CaseUtils } from '../app/utils/case.utils';
 export class PascalCaseFilter implements TemplateFilter {
   public registerFilter(env: Environment): void {
     console.log('add pascal case filter');
-    env.addFilter('pascalCase', (str) => CaseUtils.pascalCase(str));
+    env.addFilter('pascalCase', str => CaseUtils.pascalCase(str));
   }
 }

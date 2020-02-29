@@ -8,6 +8,6 @@ import { TemplateFilter } from '../app/template-filter';
 export class SnakeCaseFilter implements TemplateFilter {
   public registerFilter(env: Environment): void {
     console.log('addSnakeCaseFilter');
-    env.addFilter('snakeCase', (str) => _.snakeCase(str));
+    env.addFilter('snakeCase', str => _.snakeCase(str));
   }
 }

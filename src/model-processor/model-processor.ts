@@ -1,5 +1,5 @@
 import { Artifact } from '../app/generator/artifact';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/internal/Observable';
 
 /**
  * A ModelProcessor takes a model and translates the model to one ore more target models and calls one or more generators that do the
@@ -17,5 +17,9 @@ export interface ModelProcessor {
    * @param {string} targetBasePath base path where the generated code shall be stored
    * @param config generic config that can be used to control the model processor and the generator
    */
-  process(model: any, targetBasePath: string, config: {} | null | undefined): Observable<Artifact>[];
+  process(
+    model: any,
+    targetBasePath: string,
+    config: {} | null | undefined
+  ): Observable<Artifact>[];
 }

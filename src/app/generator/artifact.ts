@@ -13,8 +13,9 @@ export class Artifact {
    * @param {ArtifactType} type code type
    * @param {boolean} formatted true if the code has been formatted
    */
-  constructor(public file: string,
-              public type: ArtifactType,
-              public formatted = false) {
-  }
+  constructor(
+    public file: string,
+    public type: ArtifactType,
+    public formatted = false
+  ) {}
 }

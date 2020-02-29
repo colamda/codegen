@@ -8,6 +8,6 @@ import { TemplateFilter } from '../app/template-filter';
 export class KebabCaseFilter implements TemplateFilter {
   public registerFilter(env: Environment): void {
     console.log('addKebabCaseFilter');
-    env.addFilter('kebabCase', (str) => _.kebabCase(str));
+    env.addFilter('kebabCase', str => _.kebabCase(str));
   }
 }

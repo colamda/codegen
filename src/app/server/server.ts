@@ -12,9 +12,11 @@ export function startServer(port: number, modelPath: string): void {
   const app = express();
   app.use(bodyParser.text());
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({
-    extended: true
-  }));
+  app.use(
+    bodyParser.urlencoded({
+      extended: true
+    })
+  );
 
   const service = new ServerService();
 
@@ -54,5 +56,7 @@ export function startServer(port: number, modelPath: string): void {
     console.log(httpMethod, path);
   });
 
-  app.listen(port, () => console.log(`cb-codegen server listening on port ${port}!`));
+  app.listen(port, () =>
+    console.log(`cb-codegen server listening on port ${port}!`)
+  );
 }

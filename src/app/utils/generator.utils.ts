@@ -5,7 +5,6 @@ import { FileUtils } from './file.utils';
 import { LangUtils } from '@codebalancers/commons';
 
 export class GeneratorUtils {
-
   /**
    * Generate and write the output as file. Required directories will be created. Existing file will be
    * overwritten.

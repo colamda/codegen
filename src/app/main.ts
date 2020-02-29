@@ -20,9 +20,11 @@ const logger = new Logger('main');
  */
 function configs(c: any): string[] {
   if (c instanceof Array) {
-    return c.map(filePath => FileUtils.getAbsolutePath(process.cwd(), filePath));
+    return c.map(filePath =>
+      FileUtils.getAbsolutePath(process.cwd(), filePath)
+    );
   } else {
-    return [ FileUtils.getAbsolutePath(process.cwd(), c) ];
+    return [FileUtils.getAbsolutePath(process.cwd(), c)];
   }
 }
 
@@ -43,7 +45,9 @@ function checkModelDir(dir: string): boolean {
 
 const argv = yargs
   .usage('Usage: $0 <command> [options]')
-  .command('serve', 'Start model editor server',
+  .command(
+    'serve',
+    'Start model editor server',
     y => {
       return y
         .alias('m', 'modelDir')
@@ -56,16 +60,22 @@ const argv = yargs
           describe: 'server port'
         })
 
-        .demandOption([ 'm' ]);
+        .demandOption(['m']);
     },
     y => {
       logger.info('serve');
-      const directoryPath = FileUtils.getAbsolutePath(process.cwd(), y.modelDir);
+      const directoryPath = FileUtils.getAbsolutePath(
+        process.cwd(),
+        y.m as string
+      );
       if (checkModelDir(directoryPath)) {
-        startServer(y.port, directoryPath);
+        startServer(y.p, directoryPath);
       }
-    })
-  .command('generate', 'Generate code',
+    }
+  )
+  .command(
+    'generate',
+    'Generate code',
     y => {
       return y
         .alias('m', 'modelDir')
@@ -87,20 +97,41 @@ const argv = yargs
         .alias('c', 'config')
         .describe('c', 'generation config file')
 
-        .demandOption([ 'm', 'c', 'mp' ]);
+        .demandOption(['m', 'c', 'mp']);
     },
     y => {
       logger.info('generate');
-      const directoryPath = FileUtils.getAbsolutePath(process.cwd(), y.modelDir);
-      const filterPath = FileUtils.getAbsolutePath(process.cwd(), y.filters);
-      const processorIndexPath = FileUtils.getAbsolutePath(process.cwd(), y.modelProcessors);
-      const formatterIndexPath = FileUtils.getAbsolutePath(process.cwd(), y.codeFormatters);
+      const directoryPath = FileUtils.getAbsolutePath(
+        process.cwd(),
+        y.modelDir as string
+      );
+      const filterPath = FileUtils.getAbsolutePath(
+        process.cwd(),
+        y.filters as string
+      );
+      const processorIndexPath = FileUtils.getAbsolutePath(
+        process.cwd(),
+        y.modelProcessors as string
+      );
+      const formatterIndexPath = FileUtils.getAbsolutePath(
+        process.cwd(),
+        y.codeFormatters as string
+      );
 
       if (checkModelDir(directoryPath)) {
-        startGeneration(directoryPath, configs(y.config), filterPath, processorIndexPath, formatterIndexPath);
+        startGeneration(
+          directoryPath,
+          configs(y.config),
+          filterPath,
+          processorIndexPath,
+          formatterIndexPath
+        );
       }
-    })
-  .command('schema:generate', 'Generate json schema from TS interfaces',
+    }
+  )
+  .command(
+    'schema:generate',
+    'Generate json schema from TS interfaces',
     y => {
       return y
         .alias('s', 'schema')
@@ -111,23 +142,29 @@ const argv = yargs
         .describe('o', 'path to file where schema is written')
         .nargs('o', 1)
 
-        .demandOption([ 's' ]);
+        .demandOption(['s']);
     },
     y => {
       logger.info('generate schema');
-      const schemaPath = FileUtils.getAbsolutePath(process.cwd(), y.schema);
-      const outPath = FileUtils.getAbsolutePath(process.cwd(), y.out);
+      const schemaPath = FileUtils.getAbsolutePath(
+        process.cwd(),
+        y.schema as string
+      );
+      const outPath = FileUtils.getAbsolutePath(process.cwd(), y.out as string);
       startSchemaGeneration(schemaPath, outPath);
-    })
+    }
+  )
 
   .demandCommand(1)
 
-  .example('$0 generate -m path/to/models/ -c config-1.json -c config-2.json', 'generation based on two models')
+  .example(
+    '$0 generate -m path/to/models/ -c config-1.json -c config-2.json',
+    'generation based on two models'
+  )
   .example('$0 serve -m path/to/models/', 'start model editor')
 
   .help('h')
   .alias('h', 'help')
-  .epilog('copyright 2018 codebalancers')
-  .argv;
+  .epilog('copyright 2018 codebalancers').argv;
 
 logger.info('done');

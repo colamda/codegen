@@ -7,15 +7,27 @@ import { FileUtils } from '../utils/file.utils';
 const settings: TJS.PartialArgs = {
   required: true,
   validationKeywords: [
-    'title', 'headerTemplate', 'watch', 'enumSource',
-    'options', 'media',
-    'basicCategoryTitle', 'template',
-    'minLength', 'maxLength',
+    'title',
+    'headerTemplate',
+    'watch',
+    'enumSource',
+    'options',
+    'media',
+    'basicCategoryTitle',
+    'template',
+    'minLength',
+    'maxLength',
     'pattern',
-    'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum',
+    'minimum',
+    'maximum',
+    'exclusiveMinimum',
+    'exclusiveMaximum',
     'multipleOf',
-    'minProperties', 'maxProperties',
-    'minItems', 'maxItems', 'uniqueItems'
+    'minProperties',
+    'maxProperties',
+    'minItems',
+    'maxItems',
+    'uniqueItems'
   ]
 };
 
@@ -28,7 +40,7 @@ export function startSchemaGeneration(filePath: string, outPath: string): void {
   const logger = new Logger('schema generator');
   logger.info('start generation');
 
-  const program = TJS.getProgramFromFiles([ filePath ], compilerOptions);
+  const program = TJS.getProgramFromFiles([filePath], compilerOptions);
   const schema = TJS.generateSchema(program, 'Model', settings);
 
   if (LangUtils.isUndefined(outPath)) {
